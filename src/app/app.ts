@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'reportes-mf',
   imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'

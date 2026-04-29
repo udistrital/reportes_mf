@@ -1,0 +1,13 @@
+<section class="knowage-report">
+  <header class="knowage-report__header" *ngIf="reportTitleKey">
+    <h1>{{ reportTitleKey | translate }}</h1>
+  </header>
+
+  <div class="knowage-report__status" *ngIf="statusMessageKey">
+    {{ statusMessageKey | translate }}
+  </div>
+
+  <h5 *ngIf="errorMessageKey">{{ errorMessageKey | translate }}</h5>
+
+  <div #reportContainer class="knowage-report__container"></div>
+</section>

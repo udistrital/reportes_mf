@@ -1,0 +1,28 @@
+{
+  "reportes": {
+    "estado": {
+      "cargando": "Cargando reporte...",
+      "reintentando": "Reintentando...",
+      "labelNoConfigurado": "No se ha configurado el label del reporte.",
+      "errorCargando": "Error cargando reporte Knowage.",
+      "errorObteniendo": "Error obteniendo reporte desde Knowage.",
+      "errorGenerando": "Error generando el reporte."
+    },
+    "inscripciones": {
+      "inscritos": {
+        "titulo": "Reporte de inscritos"
+      },
+      "aspirantes": {
+        "titulo": "Reporte de aspirantes"
+      },
+      "admitidos": {
+        "titulo": "Reporte de admitidos"
+      }
+    },
+    "reingresos": {
+      "solicitudes": {
+        "titulo": "Reporte de reingresos"
+      }
+    }
+  }
+}

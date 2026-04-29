@@ -1,0 +1,28 @@
+.knowage-report {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+}
+
+.knowage-report__header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.knowage-report__status {
+  border: 1px solid #d5dce8;
+  border-radius: 6px;
+  color: #26364f;
+  padding: 1rem;
+}
+
+.knowage-report__container {
+  min-height: 680px;
+  width: 100%;
+}
+
+.knowage-report__container iframe {
+  display: block;
+}

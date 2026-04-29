@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:4226/',
+  production: true,
+  apiUrl: 'https://reportes.portaloas.udistrital.edu.co/',
   SPAGOBI: {
     PROTOCOL: 'https',
     HOST: 'inteligenciainstitucional.portaloas.udistrital.edu.co',

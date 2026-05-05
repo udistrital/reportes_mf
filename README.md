@@ -148,4 +148,6 @@ Con estos pasos, se tendrán las partes mínimas necesarias para ejecutar el pro
 
 ## Estado CI
 
-No se ha configurado un tablero de estado CI en este repositorio.
+| Develop | Release | Master |
+| -- | -- | -- |
+| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/reportes_mf/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/reportes_mf) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/reportes_mf/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/reportes_mf) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/reportes_mf/status.svg)](https://hubci.portaloas.udistrital.edu.co/udistrital/reportes_mf) |

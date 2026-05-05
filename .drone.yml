@@ -24,9 +24,15 @@ steps:
 
 - name: nodejs_develop
   image: node:20.19-alpine
+  environment:
+    USER_KNOWAGE:
+      from_secret: USER_KNOWAGE
+    PASSWORD_KNOWAGE:
+      from_secret: PASSWORD_KNOWAGE
   commands:
   - node --version
   - npm i
+  - node set-env.js
   - npm run build
   when:
     branch:
@@ -36,9 +42,15 @@ steps:
 
 - name: nodejs_release
   image: node:20.19-alpine
+  environment:
+    USER_KNOWAGE:
+      from_secret: USER_KNOWAGE
+    PASSWORD_KNOWAGE:
+      from_secret: PASSWORD_KNOWAGE
   commands:
   - node --version
   - npm i
+  - node set-env.js
   - npm run build:test
   when:
     branch:
@@ -48,9 +60,15 @@ steps:
 
 - name: nodejs_master
   image: node:20.19-alpine
+  environment:
+    USER_KNOWAGE:
+      from_secret: USER_KNOWAGE
+    PASSWORD_KNOWAGE:
+      from_secret: PASSWORD_KNOWAGE
   commands:
   - node --version
   - npm i
+  - node set-env.js
   - npm run build:prod
   when:
     branch:

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { KnowageReportConfig } from '../knowage-report-config';
@@ -11,7 +11,7 @@ import { KnowageService } from '../knowage.service';
   templateUrl: './knowage-report.html',
   styleUrl: './knowage-report.scss',
 })
-export class KnowageReport implements OnInit {
+export class KnowageReport implements OnInit, OnDestroy {
   @Input({ required: true }) reportLabel = '';
   @Input() reportTitleKey = '';
   @Input() executionRole = '/spagobi/user';
@@ -24,10 +24,11 @@ export class KnowageReport implements OnInit {
   statusMessageKey = 'reportes.estado.cargando';
   errorMessageKey = '';
   private retry = true;
+  private renderTimeoutId?: number;
 
   constructor(
     private readonly knowageService: KnowageService,
-    private readonly ngZone: NgZone,
+    private readonly changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +38,12 @@ export class KnowageReport implements OnInit {
     }
 
     void this.loadReport();
+  }
+
+  ngOnDestroy(): void {
+    if (this.renderTimeoutId) {
+      window.clearTimeout(this.renderTimeoutId);
+    }
   }
 
   private async loadReport(): Promise<void> {
@@ -49,24 +56,24 @@ export class KnowageReport implements OnInit {
   }
 
   private readonly handleAuthentication = (_result: unknown, _args: unknown, success: boolean): void => {
-    this.ngZone.run(() => {
-      this.statusMessageKey = '';
+    this.statusMessageKey = '';
 
-      if (success) {
-        this.errorMessageKey = '';
-        this.renderReport();
-        return;
-      }
+    if (success) {
+      this.errorMessageKey = '';
+      this.refreshView();
+      this.scheduleReportRender();
+      return;
+    }
 
-      if (this.retry) {
-        this.retry = false;
-        this.statusMessageKey = 'reportes.estado.reintentando';
-        void this.loadReport();
-        return;
-      }
+    if (this.retry) {
+      this.retry = false;
+      this.statusMessageKey = 'reportes.estado.reintentando';
+      this.refreshView();
+      void this.loadReport();
+      return;
+    }
 
-      this.showError('reportes.estado.errorObteniendo');
-    });
+    this.showError('reportes.estado.errorObteniendo');
   };
 
   private renderReport(): void {
@@ -94,5 +101,18 @@ export class KnowageReport implements OnInit {
   private showError(messageKey: string): void {
     this.statusMessageKey = '';
     this.errorMessageKey = messageKey;
+    this.refreshView();
+  }
+
+  private refreshView(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private scheduleReportRender(): void {
+    if (this.renderTimeoutId) {
+      window.clearTimeout(this.renderTimeoutId);
+    }
+
+    this.renderTimeoutId = window.setTimeout(() => this.renderReport());
   }
 }

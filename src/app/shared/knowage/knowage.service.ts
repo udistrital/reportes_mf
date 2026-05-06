@@ -72,8 +72,20 @@ export class KnowageService {
       this.sdkLoaded = true;
     }
 
+    await this.waitForSdk();
+
     if (!this.sbiSdk) {
       throw new Error('No se pudo inicializar Sbi.sdk despues de cargar sbisdk.');
+    }
+  }
+
+  private async waitForSdk(): Promise<void> {
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      if (this.sbiSdk) {
+        return;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
   }
 

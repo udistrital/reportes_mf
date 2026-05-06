@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { KnowageReportConfig } from '../knowage-report-config';
@@ -25,7 +25,10 @@ export class KnowageReport implements OnInit {
   errorMessageKey = '';
   private retry = true;
 
-  constructor(private readonly knowageService: KnowageService) {}
+  constructor(
+    private readonly knowageService: KnowageService,
+    private readonly ngZone: NgZone,
+  ) {}
 
   ngOnInit(): void {
     if (!this.reportLabel) {
@@ -46,22 +49,24 @@ export class KnowageReport implements OnInit {
   }
 
   private readonly handleAuthentication = (_result: unknown, _args: unknown, success: boolean): void => {
-    this.statusMessageKey = '';
+    this.ngZone.run(() => {
+      this.statusMessageKey = '';
 
-    if (success) {
-      this.errorMessageKey = '';
-      this.renderReport();
-      return;
-    }
+      if (success) {
+        this.errorMessageKey = '';
+        this.renderReport();
+        return;
+      }
 
-    if (this.retry) {
-      this.retry = false;
-      this.statusMessageKey = 'reportes.estado.reintentando';
-      void this.loadReport();
-      return;
-    }
+      if (this.retry) {
+        this.retry = false;
+        this.statusMessageKey = 'reportes.estado.reintentando';
+        void this.loadReport();
+        return;
+      }
 
-    this.showError('reportes.estado.errorObteniendo');
+      this.showError('reportes.estado.errorObteniendo');
+    });
   };
 
   private renderReport(): void {
